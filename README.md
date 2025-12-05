@@ -10,6 +10,7 @@ Results may vary depending on image quality and template accuracy.
 # Number Sum Calculator
 
 A Python GUI application that captures a screen region, extracts numbers using OCR, and highlights pairs of numbers that sum to 10.
+
 ![Total Downloads](https://img.shields.io/github/downloads/thealtersky/nikke_azx/total)
 
 ![](/assets/capture.png)
