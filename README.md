@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> **Disclaimer**: This software is provided "as is", without warranty of any kind. The author is not responsible for any issues or damage caused by the use of this tool. Use at your own risk.
+
 > [!WARNING]
 > This program is AI generated. Sometimes the OCR may make mistakes, such as capturing the number 6 as 5 or other numbers incorrectly. 
 
