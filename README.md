@@ -8,9 +8,6 @@
 
 # Sum10 Puzzle Solver
 ![Total Downloads](https://img.shields.io/github/downloads/thealtersky/nikke_azx/total)
-![Visitors](https://visitor-badge.laobi.icu/badge?page_id=thealtersky.nikke_azx)
-
-
 
 A Python GUI tool for automating and solving the "Sum 10" puzzle in the NIKKE game. The app uses OpenCV template matching to recognize numbers on the game grid, and provides both manual and automatic solving features with a modern PyQt5 interface and visual overlays.
 
