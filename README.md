@@ -10,7 +10,7 @@
 
 A Python GUI tool for automating and solving the "Sum 10" puzzle in the NIKKE game. The app uses OpenCV template matching to recognize numbers on the game grid, and provides both manual and automatic solving features with a modern PyQt5 interface and visual overlays.
 
-![Demo](/assets/demo.mp4)
+![Demo]()
 
 ## Features
 
