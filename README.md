@@ -1,82 +1,69 @@
 > [!IMPORTANT]
-> **Disclaimer**: This software is provided "as is", without warranty of any kind. The author is not responsible for any issues or damage caused by the use of this tool. Use at your own risk.
+> **Disclaimer**: This software is AI generated. This software is provided "as is", without warranty of any kind. The author is not responsible for any issues or damage caused by the use of this tool. Use at your own risk. 
 
-> [!WARNING]
-> This program is AI generated. Sometimes the OCR may make mistakes, such as capturing the number 6 as 5 or other numbers incorrectly. 
+> [!NOTE]
+> This project is based on code from the original repository https://github.com/Miguensio/AZX-Nikke-Script/
+> 
+> All core logic, features, and much of the implementation are derived from or adapted from the above source.
 
-For better results:
-- Adjust the match threshold slider a bit higher.
-- Try replacing the template number images in the `img` folder with clearer samples.
+# Sum10 Puzzle Solver
 
-Results may vary depending on image quality and template accuracy.
+A Python GUI tool for automating and solving the "Sum 10" puzzle in the NIKKE game. The app uses OpenCV template matching to recognize numbers on the game grid, and provides both manual and automatic solving features with a modern PyQt5 interface and visual overlays.
 
-# Number Sum Calculator
-
-A Python GUI application that captures a screen region, extracts numbers using OCR, and highlights pairs of numbers that sum to 10.
-
-![Total Downloads](https://img.shields.io/github/downloads/thealtersky/nikke_azx/total)
-
-![](/assets/capture.png)
+![Demo](/assets/demo.mp4)
 
 ## Features
 
-- **Window Capture**: Press `Win + Shift + Z` or click the "Capture" button to start
-- **Resizable Selection**: Drag to select any area of your screen
-- **OCR Processing**: Automatically extracts numbers from the captured image
-- **Smart Detection**: Finds all pairs of numbers that sum to 10
-- **Visual Highlighting**: Highlights matching pairs with colored rectangles
-- **Save Results**: Save the highlighted image to disk
+- **Game Window Detection**: Automatically finds and focuses the NIKKE game window.
+- **Grid Scanning**: Captures the puzzle grid and recognizes numbers using OpenCV template matching.
+- **Manual Controls**: Scan, clean, and highlight right, down, and square sums manually.
+- **Auto Solve**: Automatically finds and executes all valid sum-10 solutions, with visual highlights for each step.
+- **Overlay Visualization**: See real-time highlights of detected sums directly over the game window.
+- **Dark Mode UI**: Modern, dark-themed PyQt5 interface.
+- **Hotkeys**: F1–F6 for quick actions, F12 to cancel auto-solve, ESC to exit.
+- **Activity Log**: View all actions and results in a scrollable log.
 
 ## Installation
 
-1. Install Python 3.8 or higher
-
+1. Install Python 3.8 or higher (Python 3.8–3.11 recommended).
 2. Install the required packages:
-```bash
-pip install -r requirements.txt
-```
-
-3. Install Tesseract OCR:
-   - **Windows**: Download and install from https://github.com/UB-Mannheim/tesseract/wiki
-   - Add Tesseract to your PATH or update the code with the installation path
-   - **Linux**: `sudo apt-get install tesseract-ocr`
-   - **Mac**: `brew install tesseract`
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. (Optional) Build as a standalone EXE using auto-py-to-exe or PyInstaller:
+   ```bash
+   pyinstaller --noconfirm --onefile --windowed --add-data "templates;templates/" main.py
+   ```
 
 ## Usage
 
-1. Run the application:
-```bash
-python main.py
-```
+1. Start the NIKKE game and open the puzzle.
+2. Run the application:
+   ```bash
+   python main.py
+   ```
+3. Use the GUI or hotkeys to:
+   - Scan the grid (F5)
+   - Find right sums (F2), down sums (F3), or square sums (F4)
+   - Auto solve the puzzle (F6)
+   - Cancel auto solve (F12)
+   - Clean matrix (F1)
+   - Exit (ESC)
+4. Watch the overlay for visual feedback as the solver works.
 
-2. Click the "Capture" button or press `Win + Shift + Z`
-
-3. Drag to select the area containing numbers
-
-4. Release to capture - the app will:
-   - Extract numbers using OCR
-   - Find pairs that sum to 10
-   - Highlight them with colored rectangles
-   - Display the result
-
-5. Click "Save Result" to save the highlighted image
+You need to run the program as an administrator to use Auto Solve.
 
 ## Requirements
 
 - Python 3.8+
-- Tesseract OCR engine
-- See `requirements.txt` for Python packages
+- Windows OS (required for window focus and overlays)
+- See `requirements.txt` for Python dependencies (PyQt5, OpenCV, mss, pyautogui, etc.)
+- NIKKE game running and visible on your desktop
 
 ## How It Works
 
-1. **Capture**: Uses PIL ImageGrab to capture the selected screen region
-2. **OCR**: Uses pytesseract to extract numbers and their positions
-3. **Calculation**: Finds pairs of numbers that sum to 10
-4. **Visualization**: Draws colored rectangles around matching pairs
-5. **Display**: Shows the result in the GUI window
-
-## Notes
-
-- The application requires administrator privileges on Windows to capture the screen
-- For best OCR results, ensure numbers are clear and well-lit
-- The app automatically filters low-confidence OCR results
+1. **Grid Capture**: Uses mss to capture the puzzle grid from the game window.
+2. **Number Recognition**: Uses OpenCV template matching with digit images in the `templates/` folder to recognize numbers in each cell.
+3. **Solution Search**: Finds all valid right, down, and square sum-10 solutions in the grid.
+4. **Automation**: Simulates mouse drags to solve the puzzle automatically, with visual overlay highlights for each step.
+5. **Overlay**: Draws colored rectangles over the game window to show detected sums and actions in real time.
