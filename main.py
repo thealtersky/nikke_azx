@@ -105,57 +105,92 @@ class ControlGUI(QMainWindow):
         self.square_btn.clicked.connect(self.solver.sums_square)
         self.cancel_btn.clicked.connect(self.solver.cancel_auto_solve)
 
-
     def init_ui(self):
-        self.setWindowTitle("Sum10 Puzzle Solver")
+        self.setWindowTitle("Sum10 Puzzle Solver - Advanced")
         self.setGeometry(100, 100, 500, 700)
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-
-        # Apply dark mode stylesheet
-        dark_stylesheet = """
-        QWidget {
-            background-color: #232629;
-            color: #e0e0e0;
-        }
-        QGroupBox {
-            border: 1px solid #444;
-            border-radius: 6px;
-            margin-top: 10px;
-            background-color: #282c34;
-        }
-        QGroupBox:title {
-            subcontrol-origin: margin;
-            subcontrol-position: top left;
-            padding: 0 3px;
-            color: #ffb300;
-        }
-        QLabel {
-            color: #e0e0e0;
-        }
-        QPushButton {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #555;
-            border-radius: 4px;
-            padding: 6px 12px;
-        }
-        QPushButton:hover {
-            background-color: #444;
-        }
-        QPushButton:pressed {
-            background-color: #222;
-        }
-        QSpinBox, QTextEdit, QLineEdit {
-            background-color: #181a1b;
-            color: #e0e0e0;
-            border: 1px solid #444;
-            border-radius: 4px;
-        }
-        QCheckBox {
-            color: #e0e0e0;
-        }
-        """
-        self.setStyleSheet(dark_stylesheet)
+        
+        # Dark theme stylesheet
+        self.setStyleSheet("""
+            QMainWindow {
+                background-color: #2b2b2b;
+            }
+            QWidget {
+                background-color: #2b2b2b;
+                color: #e0e0e0;
+                font-family: 'Segoe UI', Arial;
+                font-size: 10pt;
+            }
+            QLabel {
+                color: #e0e0e0;
+                padding: 5px;
+            }
+            QPushButton {
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                border: 1px solid #555;
+                border-radius: 4px;
+                padding: 8px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #4a4a4a;
+                border: 1px solid #777;
+            }
+            QPushButton:pressed {
+                background-color: #2a2a2a;
+            }
+            QGroupBox {
+                border: 2px solid #555;
+                border-radius: 6px;
+                margin-top: 12px;
+                padding-top: 10px;
+                font-weight: bold;
+                color: #4CAF50;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 5px;
+            }
+            QSpinBox {
+                background-color: #3c3c3c;
+                color: #e0e0e0;
+                border: 1px solid #555;
+                border-radius: 3px;
+                padding: 4px;
+            }
+            QSpinBox::up-button, QSpinBox::down-button {
+                background-color: #4a4a4a;
+                border: 1px solid #555;
+            }
+            QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+                background-color: #5a5a5a;
+            }
+            QCheckBox {
+                color: #e0e0e0;
+                spacing: 8px;
+            }
+            QCheckBox::indicator {
+                width: 18px;
+                height: 18px;
+                border: 1px solid #555;
+                border-radius: 3px;
+                background-color: #3c3c3c;
+            }
+            QCheckBox::indicator:checked {
+                background-color: #4CAF50;
+                border-color: #4CAF50;
+            }
+            QTextEdit {
+                background-color: #1e1e1e;
+                color: #00ff00;
+                border: 1px solid #555;
+                border-radius: 4px;
+                font-family: 'Consolas', monospace;
+                font-size: 9pt;
+            }
+        """)
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -163,7 +198,7 @@ class ControlGUI(QMainWindow):
 
         # Status label
         self.status_label = QLabel("Status: Ready")
-        self.status_label.setStyleSheet("font-weight: bold; padding: 1px; background-color: #232629; color: #ffb300; border-radius: 5px;")
+        self.status_label.setStyleSheet("font-weight: bold; padding: 10px; background-color: #3c3c3c; border-radius: 5px; border: 1px solid #4CAF50;")
         layout.addWidget(self.status_label)
 
         # Process Detection Group
@@ -171,7 +206,7 @@ class ControlGUI(QMainWindow):
         process_layout = QVBoxLayout()
         
         self.process_status = QLabel("❌ NIKKE not detected")
-        self.process_status.setStyleSheet("padding: 5px; color: red; font-weight: bold;")
+        self.process_status.setStyleSheet("padding: 5px; color: #ff5555; font-weight: bold;")
         process_layout.addWidget(self.process_status)
         
         detect_btn = QPushButton("🔍 Detect NIKKE Process")
@@ -262,7 +297,6 @@ class ControlGUI(QMainWindow):
         self.log_display = QTextEdit()
         self.log_display.setReadOnly(True)
         self.log_display.setMaximumHeight(150)
-        self.log_display.setStyleSheet("background-color: #1e1e1e; color: #00ff00; font-family: 'Consolas', monospace; font-size: 10px;")
         log_layout.addWidget(self.log_display)
         
         clear_log_btn = QPushButton("Clear Log")
@@ -300,11 +334,11 @@ class ControlGUI(QMainWindow):
             found = self.solver.find_nikke_process()
             if found:
                 self.process_status.setText("✅ NIKKE detected and focused")
-                self.process_status.setStyleSheet("padding: 5px; color: green; font-weight: bold;")
+                self.process_status.setStyleSheet("padding: 5px; color: #4CAF50; font-weight: bold;")
                 self.log("Game window found and brought to foreground")
             else:
                 self.process_status.setText("❌ NIKKE not found")
-                self.process_status.setStyleSheet("padding: 5px; color: red; font-weight: bold;")
+                self.process_status.setStyleSheet("padding: 5px; color: #ff5555; font-weight: bold;")
                 self.log("NIKKE process not found. Please start the game.")
 
     def start_auto_solve(self):
@@ -343,6 +377,10 @@ class PuzzleSolver:
         self.cancel_lock = Lock()
         self.is_auto_solving = False
         
+        # Pre-load templates at initialization
+        self.templates = {}
+        self.load_templates()
+        
         self.start_area = {
             "top": self.top_start,
             "left": self.left_start,
@@ -359,6 +397,20 @@ class PuzzleSolver:
             self.gui.log(message)
         else:
             print(message)
+    
+    def load_templates(self):
+        """Pre-load all digit templates into memory as grayscale images"""
+        self.log("Loading digit templates...")
+        for digit in range(1, 10):
+            template_path = resource_path(f"templates/T{digit}.png")
+            template = cv2.imread(template_path)
+            
+            if template is not None:
+                self.templates[digit] = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+            else:
+                self.log(f"WARNING: Could not load template T{digit}.png")
+        
+        self.log(f"Loaded {len(self.templates)} templates")
     
     def start_keyboard_monitor(self):
         """Start a background thread to continuously monitor F12 key"""
@@ -489,7 +541,9 @@ class PuzzleSolver:
         return True
 
     def auto_solve(self):
-        """Automatically solve the puzzle by scanning and executing drags, with visual highlights."""
+        """
+        Enhanced auto-solve: ALWAYS rescans before starting
+        """
         # Reset cancel flag and set auto-solving state
         with self.cancel_lock:
             self.cancel_flag = False
@@ -509,7 +563,6 @@ class PuzzleSolver:
                     return
                 time.sleep(0.5)
 
-            # Check for cancellation
             if self.is_cancelled():
                 self.gui.update_status("Cancelled before scan")
                 self.log("Auto-solve cancelled by user")
@@ -517,11 +570,10 @@ class PuzzleSolver:
                 self.gui.cancel_btn.setEnabled(False)
                 return
 
-            # SCAN ONCE at the beginning
+            # ===== CRITICAL: ALWAYS DO FRESH SCAN =====
             self.gui.update_status("Scanning matrix...")
-            self.log("=== INITIAL SCAN: Reading grid ===")
+            self.log("=== FRESH SCAN: Taking new screenshot ===")
             time.sleep(0.3)
-
             self.get_matrix_numbers()
 
             if not self.matrix:
@@ -534,9 +586,8 @@ class PuzzleSolver:
             total_solutions_executed = 0
             iteration = 1
             
-            # MAIN LOOP: Keep finding and executing solutions using memory
+            # MAIN LOOP: Keep finding and executing solutions
             while True:
-                # Check for cancellation
                 if self.is_cancelled():
                     self.gui.update_status(f"Cancelled ({total_solutions_executed} completed)")
                     self.log(f"Auto-solve cancelled by user after {total_solutions_executed} solutions")
@@ -544,57 +595,54 @@ class PuzzleSolver:
                     self.gui.cancel_btn.setEnabled(False)
                     return
 
-                # Check if there are any numbers left in our memory matrix
+                # Check if there are any numbers left
                 has_numbers = False
                 for row in self.matrix:
                     for cell in row:
-                        if cell not in [' ', "\u2192", "\u2193", "\u25A0", "\u25A1", "\u25BA", "\u25BC"]:
-                            if isinstance(cell, int) and 1 <= cell <= 9:
-                                has_numbers = True
-                                break
+                        if isinstance(cell, int) and 1 <= cell <= 9:
+                            has_numbers = True
+                            break
                     if has_numbers:
                         break
                 
                 if not has_numbers:
-                    self.gui.update_status(f"Puzzle Complete! ({total_solutions_executed} total solutions)")
-                    self.log(f"=== PUZZLE COMPLETE: No more numbers in memory ===")
+                    self.gui.update_status(f"Puzzle Complete! ({total_solutions_executed} total)")
+                    self.log(f"=== PUZZLE COMPLETE: No more numbers in matrix ===")
                     self.log(f"Total solutions executed: {total_solutions_executed}")
                     self.gui.auto_solve_btn.setEnabled(True)
                     self.gui.cancel_btn.setEnabled(False)
                     return
 
-                # Find all solutions in current memory state
-                self.gui.update_status(f"Analyzing solutions (iteration {iteration})...")
+                # Find all solutions in current state
+                self.gui.update_status(f"Finding solutions (iteration {iteration})...")
                 self.log(f"=== ITERATION {iteration}: Finding solutions ===")
                 self.find_all_solutions()
 
                 if not self.solutions:
-                    self.gui.update_status(f"No more solutions - Complete! ({total_solutions_executed} total)")
+                    self.gui.update_status(f"No more solutions ({total_solutions_executed} total)")
                     self.log(f"No valid solutions found in iteration {iteration}")
-                    self.log(f"=== AUTO SOLVE COMPLETE: {total_solutions_executed} total solutions executed ===")
+                    self.log(f"=== AUTO SOLVE COMPLETE: {total_solutions_executed} total ===")
                     self.gui.auto_solve_btn.setEnabled(True)
                     self.gui.cancel_btn.setEnabled(False)
                     return
 
                 self.log(f"Found {len(self.solutions)} valid solutions in iteration {iteration}")
 
-                # Create a set to track which cells have been used in this iteration
+                # Track used cells per iteration
                 used_cells = set()
-
-                # Execute ALL solutions from current scan, tracking used cells
                 solutions_this_iteration = 0
+
                 for solution in self.solutions:
-                    # Check for cancellation
                     if self.is_cancelled():
                         self.gui.update_status(f"Cancelled ({total_solutions_executed} completed)")
-                        self.log(f"⛔ Auto-solve CANCELLED after {total_solutions_executed} solutions")
+                        self.log(f"Auto-solve cancelled after {total_solutions_executed} solutions")
                         self.gui.auto_solve_btn.setEnabled(True)
                         self.gui.cancel_btn.setEnabled(False)
                         return
 
                     sol_type, start_r, start_c, end_r, end_c = solution
 
-                    # Get all cells involved in this solution
+                    # Get all cells involved
                     solution_cells = set()
                     if sol_type == 'right':
                         for c in range(start_c, end_c + 1):
@@ -607,79 +655,74 @@ class PuzzleSolver:
                             for c in range(start_c, end_c + 1):
                                 solution_cells.add((r, c))
 
-                    # Check if any cells in this solution have already been used
+                    # Skip if cells already used
                     if solution_cells & used_cells:
-                        self.log(f"Skipping solution at ({start_r},{start_c}) - cells already used this iteration")
+                        self.log(f"Skipping solution at ({start_r},{start_c}) - overlap")
                         continue
 
-                    # Mark these cells as used
                     used_cells.update(solution_cells)
-
                     total_solutions_executed += 1
                     solutions_this_iteration += 1
-                    self.gui.update_status(f"Solution #{total_solutions_executed} (iter {iteration}: {solutions_this_iteration}/{len(self.solutions)}) - {sol_type}")
-                    self.log(f"Executing solution #{total_solutions_executed}: {sol_type} at ({start_r},{start_c})")
+                    
+                    self.gui.update_status(f"Solution #{total_solutions_executed} ({sol_type})")
+                    self.log(f"Executing #{total_solutions_executed}: {sol_type} at ({start_r},{start_c})")
 
-                    # Highlight the solution visually before dragging
-                    if sol_type == 'right':
-                        positions = end_c - start_c
-                        for x in range(positions + 1):
-                            if self.matrix[start_r][start_c + x] not in [' ', "\u2192", "\u2193", "\u25A0", "\u25A1", "\u25BA", "\u25BC"]:
-                                if x == 0:
-                                    self.matrix[start_r][start_c] = "\u25BA"
-                                else:
-                                    self.matrix[start_r][start_c + x] = "\u2192"
-                    elif sol_type == 'down':
-                        positions = end_r - start_r
-                        for x in range(positions + 1):
-                            if self.matrix[start_r + x][start_c] not in [' ', "\u2192", "\u2193", "\u25A0", "\u25A1", "\u25BA", "\u25BC"]:
-                                if x == 0:
-                                    self.matrix[start_r][start_c] = "\u25BC"
-                                else:
-                                    self.matrix[start_r + x][start_c] = "\u2193"
-                    elif sol_type == 'square':
-                        r0, c0, r1, c1 = start_r, start_c, end_r, end_c
-                        for j in range(min(r0, r1), max(r0, r1) + 1):
-                            for k in range(c0, c1 + 1):
-                                if self.matrix[j][k] not in [' ', "\u2192", "\u2193", "\u25A0", "\u25A1", "\u25BA", "\u25BC"]:
-                                    if j == start_r and k == start_c:
-                                        self.matrix[j][k] = "\u25A1"
-                                    else:
-                                        self.matrix[j][k] = "\u25A0"
-
+                    # Visual highlight
+                    self.highlight_solution(sol_type, start_r, start_c, end_r, end_c)
                     self.update_overlay()
-                    time.sleep(0.2)  # Show highlight before drag
+                    time.sleep(0.2)
 
-                    try:
-                        drag_success = self.perform_drag(start_r, start_c, end_r, end_c)
-                        if not drag_success:
-                            self.gui.update_status(f"Cancelled ({total_solutions_executed - 1} completed)")
-                            self.log(f"⛔ Auto-solve CANCELLED after {total_solutions_executed - 1} solutions")
-                            self.gui.auto_solve_btn.setEnabled(True)
-                            self.gui.cancel_btn.setEnabled(False)
-                            return
-                        
-                        # Mark the cells as empty in our matrix memory after successful drag
-                        for cell in solution_cells:
-                            r, c = cell
-                            self.matrix[r][c] = ' '
-                        
-                        time.sleep(0.3)  # Wait for animation
-                    except Exception as e:
-                        self.log(f"ERROR during drag: {e}")
-
-                    # Clear overlay after drag
+                    # Perform drag
+                    drag_success = self.perform_drag(start_r, start_c, end_r, end_c)
+                    if not drag_success:
+                        self.gui.update_status(f"Cancelled ({total_solutions_executed - 1} completed)")
+                        self.gui.auto_solve_btn.setEnabled(True)
+                        self.gui.cancel_btn.setEnabled(False)
+                        return
+                    
+                    # Mark cells as empty in memory
+                    for cell in solution_cells:
+                        r, c = cell
+                        self.matrix[r][c] = ' '
+                    
+                    time.sleep(0.3)
                     self.update_overlay()
 
-                self.log(f"Iteration {iteration} complete: {solutions_this_iteration} solutions executed")
+                self.log(f"Iteration {iteration} complete: {solutions_this_iteration} solutions")
                 iteration += 1
-                # No rescan - continue with memory matrix
         
         finally:
-            # Always reset auto-solving state when done
             with self.cancel_lock:
                 self.is_auto_solving = False
-            print("AUTO-SOLVE ENDED - is_auto_solving =", self.is_auto_solving)
+            print("AUTO-SOLVE ENDED")
+
+    def highlight_solution(self, sol_type, start_r, start_c, end_r, end_c):
+        """Helper to highlight solution visually"""
+        if sol_type == 'right':
+            for x in range(end_c - start_c + 1):
+                cell_val = self.matrix[start_r][start_c + x]
+                if isinstance(cell_val, int) and 1 <= cell_val <= 9:
+                    if x == 0:
+                        self.matrix[start_r][start_c] = "▶"
+                    else:
+                        self.matrix[start_r][start_c + x] = "→"
+        elif sol_type == 'down':
+            for x in range(end_r - start_r + 1):
+                cell_val = self.matrix[start_r + x][start_c]
+                if isinstance(cell_val, int) and 1 <= cell_val <= 9:
+                    if x == 0:
+                        self.matrix[start_r][start_c] = "▼"
+                    else:
+                        self.matrix[start_r + x][start_c] = "↓"
+        elif sol_type == 'square':
+            for j in range(min(start_r, end_r), max(start_r, end_r) + 1):
+                for k in range(start_c, end_c + 1):
+                    cell_val = self.matrix[j][k]
+                    if isinstance(cell_val, int) and 1 <= cell_val <= 9:
+                        if j == start_r and k == start_c:
+                            self.matrix[j][k] = "□"
+                        else:
+                            self.matrix[j][k] = "■"
 
     def find_all_solutions(self):
         """Find all valid sum=10 solutions in the matrix"""
@@ -720,56 +763,69 @@ class PuzzleSolver:
                         self.solutions.append(('square', r, c, max_r, max_c))
 
     def get_matrix_numbers(self):
+        """Optimized grid scanning with single screenshot"""
         self.numbers = []
         self.matrix = []
         
-        counter = 0
-        self.start_area["top"] = self.top_start
-        self.start_area["left"] = self.left_start
-
         self.log(f"Scanning {self.rows}x{self.columns} grid...")
+        start_time = time.time()
+
+        # Calculate full grid dimensions
+        grid_width = (self.columns - 1) * self.offset_x + self.capture_area_w
+        grid_height = (self.rows - 1) * self.offset_y + self.capture_area_h
+
+        capture_area = {
+            "top": self.top_start,
+            "left": self.left_start,
+            "width": grid_width,
+            "height": grid_height,
+        }
 
         with mss.mss() as sct:
-            for r in range(self.rows):
-                for c in range(self.columns):
+            # Single screenshot of entire grid
+            full_image = sct.grab(capture_area)
+            full_img_np = np.array(full_image)
+            full_img_gray = cv2.cvtColor(full_img_np, cv2.COLOR_BGR2GRAY)
+
+            counter = 0
+            for row in range(self.rows):
+                cell_y = row * self.offset_y
+                for col in range(self.columns):
                     counter += 1
+                    cell_x = col * self.offset_x
 
-                    image = sct.grab(self.start_area)
-                    img_np = np.array(image)
-                    img_gray = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
+                    # Extract cell region from full image
+                    cell_img = full_img_gray[
+                        cell_y : cell_y + self.capture_area_h,
+                        cell_x : cell_x + self.capture_area_w,
+                    ]
 
+                    # Recognize digit using pre-loaded templates
                     best_score = -10 
                     best_match_digit = -1
 
-
-                    for j in range(1, 10):
-                        template_path = resource_path(f"templates/T{j}.png")
-                        template = cv2.imread(template_path)
-
-                        if template is None:
-                            continue
-
-                        temp_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
-                        res = cv2.matchTemplate(img_gray, temp_gray, cv2.TM_CCOEFF_NORMED)
+                    for digit, template in self.templates.items():
+                        res = cv2.matchTemplate(cell_img, template, cv2.TM_CCOEFF_NORMED)
                         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
                         if max_val > best_score:
                             best_score = max_val
-                            best_match_digit = j
+                            best_match_digit = digit
+                            
+                            # Early exit for high confidence matches
+                            if best_score > 0.95:
+                                break
                     
                     if best_match_digit != -1:
                         self.numbers.append(best_match_digit)
                     else:
                         self.numbers.append(" ")
 
-                    self.start_area["left"] += self.offset_x
-
-                self.start_area["left"] = self.left_start
-                self.start_area["top"] += self.offset_y
-
+        elapsed = time.time() - start_time
         self.createMatrix()
         self.gui.update_status("Matrix scanned successfully")
-        self.log(f"OCR scan complete: {counter} cells analyzed")
+        self.log(f"OCR scan complete: {counter} cells analyzed in {elapsed:.3f}s")
+    
 
     def createMatrix(self):
         self.matrix = []
@@ -793,17 +849,55 @@ class PuzzleSolver:
             self.log("...")
 
     def checkRight(self, columns, r, c, matrix):
-        sum_val = 0
-        for j in range(columns - c):
+        """
+        Enhanced: Check for horizontal patterns going right
+        Only counts actual numbers, ignores empty spaces in between
+        """
+        if c >= columns:
+            return False, 0
+        if self.has_special_char(r, c):
+            return False, 0
+        
+        # Must start with a number
+        start_val = matrix[r][c]
+        if not isinstance(start_val, int) or start_val < 1 or start_val > 9:
+            return False, 0
+        
+        numbers_sum = start_val
+        last_number_pos = 0
+        number_count = 1  # Count how many actual numbers we have
+        
+        # Scan through cells to the right
+        for j in range(1, columns - c):
             if c + j >= columns:
-                return False, 0
+                break
+            
+            current_cell = matrix[r][c + j]
+            
+            # Skip special characters (already processed)
             if self.has_special_char(r, c + j):
+                break
+            
+            # If it's a number, add it to sum
+            if isinstance(current_cell, int) and 1 <= current_cell <= 9:
+                numbers_sum += current_cell
+                last_number_pos = j
+                number_count += 1
+                
+                # Check if we hit exactly 10
+                if numbers_sum == 10 and number_count >= 2:  # Need at least 2 numbers
+                    return True, last_number_pos
+                
+                # If we exceed 10, this path is invalid
+                if numbers_sum > 10:
+                    return False, 0
+            
+            # If it's empty space, continue looking (can drag through it)
+            elif current_cell == ' ':
                 continue
-            sum_val += matrix[r][c + j]
-            if sum_val > 10:
-                return False, 0
-            elif sum_val == 10:
-                return True, j
+            else:
+                break
+        
         return False, 0
 
     def sums_right(self):
@@ -824,17 +918,55 @@ class PuzzleSolver:
         self.log(f"Right sums found: {count}")
 
     def checkDown(self, rows, r, c, matrix):
-        sum_val = 0
-        for j in range(rows - r):
+        """
+        Enhanced: Check for vertical patterns going down
+        Only counts actual numbers, ignores empty spaces in between
+        """
+        if r >= rows:
+            return False, 0
+        if self.has_special_char(r, c):
+            return False, 0
+        
+        # Must start with a number
+        start_val = matrix[r][c]
+        if not isinstance(start_val, int) or start_val < 1 or start_val > 9:
+            return False, 0
+        
+        numbers_sum = start_val
+        last_number_pos = 0
+        number_count = 1
+        
+        # Scan through cells going down
+        for j in range(1, rows - r):
             if r + j >= rows:
-                return False, 0
+                break
+            
+            current_cell = matrix[r + j][c]
+            
+            # Skip special characters (already processed)
             if self.has_special_char(r + j, c):
+                break
+            
+            # If it's a number, add it to sum
+            if isinstance(current_cell, int) and 1 <= current_cell <= 9:
+                numbers_sum += current_cell
+                last_number_pos = j
+                number_count += 1
+                
+                # Check if we hit exactly 10
+                if numbers_sum == 10 and number_count >= 2:
+                    return True, last_number_pos
+                
+                # If we exceed 10, this path is invalid
+                if numbers_sum > 10:
+                    return False, 0
+            
+            # If it's empty space, continue looking
+            elif current_cell == ' ':
                 continue
-            sum_val += matrix[r + j][c]
-            if sum_val > 10:
-                return False, 0
-            elif sum_val == 10:
-                return True, j
+            else:
+                break
+        
         return False, 0
 
     def sums_down(self):
@@ -855,9 +987,18 @@ class PuzzleSolver:
         self.log(f"Down sums found: {count}")
 
     def checkSquareDown(self, rows, columns, start_r, start_c, matrix):
+        """
+        Enhanced: Check for square patterns going down-right
+        Counts all numbers in rectangle, ignores empty spaces
+        """
         if start_r >= rows or start_c >= columns:
             return False, 0, 0
         if self.has_special_char(start_r, start_c):
+            return False, 0, 0
+        
+        # Must start with a number
+        start_val = matrix[start_r][start_c]
+        if not isinstance(start_val, int) or start_val < 1 or start_val > 9:
             return False, 0, 0
 
         edge_rows = start_r + 1
@@ -865,14 +1006,30 @@ class PuzzleSolver:
 
         while edge_rows < rows and edge_columns < columns:
             sum_val = 0
+            has_special = False
+            number_count = 0
+            
+            # Sum all numbers in the rectangle, ignore empty spaces
             for r in range(start_r, edge_rows + 1):
                 for c in range(start_c, edge_columns + 1):
-                    if not self.has_special_char(r, c):
-                        sum_val += int(matrix[r][c])
+                    if self.has_special_char(r, c):
+                        has_special = True
+                        break
+                    
+                    cell_val = matrix[r][c]
+                    if isinstance(cell_val, int) and 1 <= cell_val <= 9:
+                        sum_val += cell_val
+                        number_count += 1
+                
+                if has_special:
+                    break
+            
+            if has_special:
+                return False, 0, 0
             
             if sum_val > 10:
                 return False, 0, 0
-            if sum_val == 10:
+            if sum_val == 10 and number_count >= 2:  # Need at least 2 numbers
                 return True, edge_rows, edge_columns
             
             edge_rows += 1
@@ -881,9 +1038,18 @@ class PuzzleSolver:
         return False, 0, 0
 
     def checkSquareUp(self, rows, columns, start_r, start_c, matrix):
+        """
+        Enhanced: Check for square patterns going up-right
+        Counts all numbers in rectangle, ignores empty spaces
+        """
         if start_r <= 0 or start_c >= columns:
             return False, 0, 0
         if self.has_special_char(start_r, start_c):
+            return False, 0, 0
+        
+        # Must start with a number
+        start_val = matrix[start_r][start_c]
+        if not isinstance(start_val, int) or start_val < 1 or start_val > 9:
             return False, 0, 0
 
         edge_rows = start_r - 1
@@ -891,14 +1057,30 @@ class PuzzleSolver:
 
         while edge_rows >= 0 and edge_columns < columns:
             sum_val = 0
+            has_special = False
+            number_count = 0
+            
+            # Sum all numbers in the rectangle, ignore empty spaces
             for r in range(edge_rows, start_r + 1):
                 for c in range(start_c, edge_columns + 1):
-                    if not self.has_special_char(r, c):
-                        sum_val += int(matrix[r][c])
+                    if self.has_special_char(r, c):
+                        has_special = True
+                        break
+                    
+                    cell_val = matrix[r][c]
+                    if isinstance(cell_val, int) and 1 <= cell_val <= 9:
+                        sum_val += cell_val
+                        number_count += 1
+                
+                if has_special:
+                    break
+            
+            if has_special:
+                return False, 0, 0
             
             if sum_val > 10:
                 return False, 0, 0
-            if sum_val == 10:
+            if sum_val == 10 and number_count >= 2:
                 return True, edge_rows, edge_columns
             
             edge_rows -= 1
